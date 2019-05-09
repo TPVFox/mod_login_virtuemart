@@ -34,17 +34,17 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LOGIN" />
 	<config>
 		<fields name="params">
-                    <fieldset name="oliva">
+                    <fieldset name="menu">
 				<field
 					name="menutype"
 					type="menu"
-					label="MOD_LOGIN_FIELD_MENUTYPE_LABEL"
-					description="MOD_LOGIN_FIELD_MENUTYPE_DESC" />
+					label="MOD_LOGIN_VIRTUEMART_FIELD_MENUTYPE_LABEL"
+					description="MOD_LOGIN_VIRTUEMART_FIELD_MENUTYPE_DESC" />
 				<field
 					name="base"
 					type="menuitem"
-					label="MOD_LOGIN_FIELD_ACTIVE_LABEL"
-					description="MOD_LOGIN_FIELD_ACTIVE_DESC"
+					label="MOD_LOGIN_VIRTUEMART_FIELD_ACTIVE_LABEL"
+					description="MOD_LOGIN_VIRTUEMART_FIELD_ACTIVE_DESC"
 					>
 					<option value="">JCURRENT</option>
 				</field>
@@ -53,8 +53,8 @@
 					type="radio"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_LOGIN_FIELD_ALLCHILDREN_LABEL"
-					description="MOD_LOGIN_FIELD_ALLCHILDREN_DESC">
+					label="MOD_LOGIN_VIRTUEMART_FIELD_ALLCHILDREN_LABEL"
+					description="MOD_LOGIN_VIRTUEMART_FIELD_ALLCHILDREN_DESC">
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
