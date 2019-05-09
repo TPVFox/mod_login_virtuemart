@@ -10,12 +10,12 @@
 defined('_JEXEC') or die;
 
 // Include the login functions only once
-JLoader::register('ModLoginHelper', __DIR__ . '/helper.php');
+JLoader::register('ModLoginVirtuemartHelper', __DIR__ . '/helper.php');
 
 $params->def('greeting', 1);
-
-$type             = ModLoginHelper::getType();
-$return           = ModLoginHelper::getReturnUrl($params, $type);
+$list             = ModLoginVirtuemartHelper::getListMenu($params);
+$type             = ModLoginVirtuemartHelper::getType();
+$return           = ModLoginVirtuemartHelper::getReturnUrl($params, $type);
 $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 $user             = JFactory::getUser();
 $layout           = $params->get('layout', 'default');

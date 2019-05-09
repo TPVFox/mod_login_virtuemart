@@ -37,3 +37,8 @@ JHtml::_('behavior.keepalive');
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
+<div>
+<pre>
+<?php print_r($list );?>
+</pre>
+</div>

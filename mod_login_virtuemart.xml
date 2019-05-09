@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.1" client="site" method="upgrade">
 	<name>mod_login_virtuemart</name>
-	<author>Soluciones Vigo</author>
+    <author>Soluciones Vigo y Alagoro</author>
 	<creationDate>Mayo 2019</creationDate>
 	<copyright>Copia de modificada de mod_login version 3.0.0.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
@@ -12,15 +12,54 @@
 	<files>
 		<filename module="mod_login_virtuemart">mod_login_virtuemart.php</filename>
 		<folder>tmpl</folder>
+        <folder>languages</folder>
+                
 		<filename>helper.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_login_virtuemart.ini</language>
-		<language tag="en-GB">en-GB.mod_login_virtuemart.sys.ini</language>
+        <language tag="en-GB">languages/en-GB.mod_login_virtuemart.ini</language>
+        <language tag="en-GB">languages/en-GB.mod_login_virtuemart.sys.ini</language>
+        <language tag="es-ES">languages/es-ES/es-ES.mod_login_virtuemart.ini</language>
+        <language tag="es-ES">languages/es-ES/es-ES.mod_login_virtuemart.sys.ini</language>
 	</languages>
+    <administration>
+        <languages folder="language">
+            <language tag="en-GB">languages/en-GB.mod_login_virtuemart.ini</language>
+            <language tag="en-GB">languages/en-GB.mod_login_virtuemart.sys.ini</language>
+            <language tag="es-ES">languages/es-ES/es-ES.mod_login_virtuemart.ini</language>
+            <language tag="es-ES">languages/es-ES/es-ES.mod_login_virtuemart.sys.ini</language>
+        </languages>
+    </administration>
+        
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LOGIN" />
 	<config>
 		<fields name="params">
+                    <fieldset name="oliva">
+				<field
+					name="menutype"
+					type="menu"
+					label="MOD_LOGIN_FIELD_MENUTYPE_LABEL"
+					description="MOD_LOGIN_FIELD_MENUTYPE_DESC" />
+				<field
+					name="base"
+					type="menuitem"
+					label="MOD_LOGIN_FIELD_ACTIVE_LABEL"
+					description="MOD_LOGIN_FIELD_ACTIVE_DESC"
+					>
+					<option value="">JCURRENT</option>
+				</field>
+				<field
+					name="showAllChildren"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="MOD_LOGIN_FIELD_ALLCHILDREN_LABEL"
+					description="MOD_LOGIN_FIELD_ALLCHILDREN_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+                        
+                    </fieldset>
 			<fieldset name="basic"
 				addfieldpath="/administrator/components/com_menus/models/fields"
 			>
