@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.1" client="site" method="upgrade">
-	<name>mod_login_virtuemart</name>
-    <author>Soluciones Vigo y Alagoro</author>
-	<creationDate>Mayo 2019</creationDate>
-	<copyright>Copia de modificada de mod_login version 3.0.0.</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<authorEmail>info@solucionesvigo.es</authorEmail>
-	<authorUrl>www.ayuda.svigo.es</authorUrl>
-	<version>3.0.0</version>
-	<description>MOD_LOGIN_VIRTUEMART_XML_DESCRIPTION</description>
-	<files>
-		<filename module="mod_login_virtuemart">mod_login_virtuemart.php</filename>
-		<folder>tmpl</folder>
+    <name>mod_login_virtuemart</name>
+    <author>Soluciones Vigo</author>
+    <creationDate>Mayo 2019</creationDate>
+    <copyright>Copia de modificada de mod_login version 3.0.0.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <authorEmail>info@solucionesvigo.es</authorEmail>
+    <authorUrl>www.ayuda.svigo.es</authorUrl>
+    <version>3.0.0</version>
+    <description>MOD_LOGIN_VIRTUEMART_XML_DESCRIPTION</description>
+    <files>
+        <filename module="mod_login_virtuemart">mod_login_virtuemart.php</filename>
+        <folder>tmpl</folder>
         <folder>languages</folder>
                 
-		<filename>helper.php</filename>
-	</files>
-	<languages>
+        <filename>helper.php</filename>
+    </files>
+    <languages>
         <language tag="en-GB">languages/en-GB/en-GB.mod_login_virtuemart.ini</language>
         <language tag="en-GB">languages/en-GB/en-GB.mod_login_virtuemart.sys.ini</language>
         <language tag="es-ES">languages/es-ES/es-ES.mod_login_virtuemart.ini</language>
         <language tag="es-ES">languages/es-ES/es-ES.mod_login_virtuemart.sys.ini</language>
-	</languages>
+    </languages>
     <administration>
         <languages folder="language">
             <language tag="en-GB">languages/en-GB/en-GB.mod_login_virtuemart.ini</language>
@@ -31,167 +31,172 @@
         </languages>
     </administration>
         
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LOGIN" />
-	<config>
-		<fields name="params">
-                    <fieldset name="menu">
-				<field
-					name="menutype"
-					type="menu"
-					label="MOD_LOGIN_VIRTUEMART_FIELD_MENUTYPE_LABEL"
-					description="MOD_LOGIN_VIRTUEMART_FIELD_MENUTYPE_DESC" />
-				<field
-					name="base"
-					type="menuitem"
-					label="MOD_LOGIN_VIRTUEMART_FIELD_ACTIVE_LABEL"
-					description="MOD_LOGIN_VIRTUEMART_FIELD_ACTIVE_DESC"
-					>
-					<option value="">JCURRENT</option>
-				</field>
-				<field
-					name="showAllChildren"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
-					label="MOD_LOGIN_VIRTUEMART_FIELD_ALLCHILDREN_LABEL"
-					description="MOD_LOGIN_VIRTUEMART_FIELD_ALLCHILDREN_DESC">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
+    <help key="JHELP_EXTENSIONS_MODULE_MANAGER_LOGIN" />
+    <config>
+        <fields name="params">
+            <fieldset name="presentacion">
+                
+                <field
+                    name="layout"
+                    type="modulelayout"
+                    label="Formulario"
+                    description="Enlaces a log-up y log-in, sin cajas. Cajas en horizontal o cajas en vertical"
+                />
+            </fieldset>
+                
+            <fieldset name="menu">
+                
+                <field
+                    name="menutype"
+                    type="menu"
+                    label="MOD_LOGIN_VIRTUEMART_FIELD_MENUTYPE_LABEL"
+                    description="MOD_LOGIN_VIRTUEMART_FIELD_MENUTYPE_DESC" />
+                <field
+                    name="base"
+                    type="menuitem"
+                    label="MOD_LOGIN_VIRTUEMART_FIELD_ACTIVE_LABEL"
+                    description="MOD_LOGIN_VIRTUEMART_FIELD_ACTIVE_DESC"
+                >
+                    <option value="">JCURRENT</option>
+                </field>
+                <field
+                    name="showAllChildren"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                    label="MOD_LOGIN_VIRTUEMART_FIELD_ALLCHILDREN_LABEL"
+                    description="MOD_LOGIN_VIRTUEMART_FIELD_ALLCHILDREN_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
                         
-                    </fieldset>
-			<fieldset name="basic"
-				addfieldpath="/administrator/components/com_menus/models/fields"
-			>
-				<field
-					name="pretext"
-					type="textarea"
-					label="MOD_LOGIN_FIELD_PRE_TEXT_LABEL"
-					description="MOD_LOGIN_FIELD_PRE_TEXT_DESC"
-					filter="safehtml"
-					cols="30"
-					rows="5"
-				/>
+            </fieldset>
+            <fieldset name="basic"
+                     addfieldpath="/administrator/components/com_menus/models/fields"
+            >
+                <field
+                    name="pretext"
+                    type="textarea"
+                    label="MOD_LOGIN_FIELD_PRE_TEXT_LABEL"
+                    description="MOD_LOGIN_FIELD_PRE_TEXT_DESC"
+                    filter="safehtml"
+                    cols="30"
+                    rows="5"
+                />
 
-				<field
-					name="posttext"
-					type="textarea"
-					label="MOD_LOGIN_FIELD_POST_TEXT_LABEL"
-					description="MOD_LOGIN_FIELD_POST_TEXT_DESC"
-					filter="safehtml"
-					cols="30"
-					rows="5"
-				/>
+                <field
+                    name="posttext"
+                    type="textarea"
+                    label="MOD_LOGIN_FIELD_POST_TEXT_LABEL"
+                    description="MOD_LOGIN_FIELD_POST_TEXT_DESC"
+                    filter="safehtml"
+                    cols="30"
+                    rows="5"
+                />
 
-				<field
-					name="login"
-					type="modal_menu"
-					label="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_LABEL"
-					description="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_DESC"
-					disable="separator,alias,heading,url"
-					select="true"
-					new="true"
-					edit="true"
-					clear="true"
-					>
-					<option value="">JDEFAULT</option>
-				</field>
+                <field
+                    name="login"
+                    type="modal_menu"
+                    label="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_LABEL"
+                    description="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_DESC"
+                    disable="separator,alias,heading,url"
+                    select="true"
+                    new="true"
+                    edit="true"
+                    clear="true"
+                >
+                    <option value="">JDEFAULT</option>
+                </field>
 
-				<field
-					name="logout"
-					type="modal_menu"
-					label="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_LABEL"
-					description="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_DESC"
-					disable="separator,alias,heading,url"
-					select="true"
-					new="true"
-					edit="true"
-					clear="true"
-					>
-					<option value="">JDEFAULT</option>
-				</field>
+                <field
+                    name="logout"
+                    type="modal_menu"
+                    label="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_LABEL"
+                    description="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_DESC"
+                    disable="separator,alias,heading,url"
+                    select="true"
+                    new="true"
+                    edit="true"
+                    clear="true"
+                >
+                    <option value="">JDEFAULT</option>
+                </field>
 
-				<field
-					name="greeting"
-					type="radio"
-					label="MOD_LOGIN_FIELD_GREETING_LABEL"
-					description="MOD_LOGIN_FIELD_GREETING_DESC"
-					class="btn-group btn-group-yesno"
-					default="1"
-					filter="integer"
-					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
+                <field
+                    name="greeting"
+                    type="radio"
+                    label="MOD_LOGIN_FIELD_GREETING_LABEL"
+                    description="MOD_LOGIN_FIELD_GREETING_DESC"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                    filter="integer"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
 
-				<field
-					name="name"
-					type="list"
-					label="MOD_LOGIN_FIELD_NAME_LABEL"
-					description="MOD_LOGIN_FIELD_NAME_DESC"
-					default="0"
-					filter="integer"
-					showon="greeting:1"
-					>
-					<option value="0">MOD_LOGIN_VALUE_NAME</option>
-					<option value="1">MOD_LOGIN_VALUE_USERNAME</option>
-				</field>
+                <field
+                    name="name"
+                    type="list"
+                    label="MOD_LOGIN_FIELD_NAME_LABEL"
+                    description="MOD_LOGIN_FIELD_NAME_DESC"
+                    default="0"
+                    filter="integer"
+                    showon="greeting:1"
+                >
+                    <option value="0">MOD_LOGIN_VALUE_NAME</option>
+                    <option value="1">MOD_LOGIN_VALUE_USERNAME</option>
+                </field>
 
-				<field
-					name="profilelink"
-					type="radio"
-					label="MOD_LOGIN_FIELD_PROFILE_LABEL"
-					description="MOD_LOGIN_FIELD_PROFILE_DESC"
-					class="btn-group btn-group-yesno"
-					default="0"
-					filter="integer"
-					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
+                <field
+                    name="profilelink"
+                    type="radio"
+                    label="MOD_LOGIN_FIELD_PROFILE_LABEL"
+                    description="MOD_LOGIN_FIELD_PROFILE_DESC"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    filter="integer"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
 
-				<field
-					name="usesecure"
-					type="radio"
-					label="MOD_LOGIN_FIELD_USESECURE_LABEL"
-					description="MOD_LOGIN_FIELD_USESECURE_DESC"
-					class="btn-group btn-group-yesno"
-					default="0"
-					filter="integer"
-					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
+                <field
+                    name="usesecure"
+                    type="radio"
+                    label="MOD_LOGIN_FIELD_USESECURE_LABEL"
+                    description="MOD_LOGIN_FIELD_USESECURE_DESC"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    filter="integer"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
 
-				<field
-					name="usetext"
-					type="list"
-					label="MOD_LOGIN_FIELD_USETEXT_LABEL"
-					description="MOD_LOGIN_FIELD_USETEXT_DESC"
-					default="0"
-					filter="integer"
-					>
-					<option value="0">MOD_LOGIN_VALUE_ICONS</option>
-					<option value="1">MOD_LOGIN_VALUE_TEXT</option>
-				</field>
-			</fieldset>
+                <field
+                    name="usetext"
+                    type="list"
+                    label="MOD_LOGIN_FIELD_USETEXT_LABEL"
+                    description="MOD_LOGIN_FIELD_USETEXT_DESC"
+                    default="0"
+                    filter="integer"
+                >
+                    <option value="0">MOD_LOGIN_VALUE_ICONS</option>
+                    <option value="1">MOD_LOGIN_VALUE_TEXT</option>
+                </field>
+            </fieldset>
 
-			<fieldset name="advanced">
-				<field
-					name="layout"
-					type="modulelayout"
-					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
-				/>
+            <fieldset name="advanced">
 
-				<field
-					name="moduleclass_sfx"
-					type="textarea"
-					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
-					rows="3"
-				/>
-			</fieldset>
-		</fields>
-	</config>
+                <field
+                    name="moduleclass_sfx"
+                    type="textarea"
+                    label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+                    description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+                    rows="3"
+                />
+            </fieldset>
+        </fields>
+    </config>
 </extension>

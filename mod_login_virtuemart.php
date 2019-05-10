@@ -18,12 +18,12 @@ $type             = ModLoginVirtuemartHelper::getType();
 $return           = ModLoginVirtuemartHelper::getReturnUrl($params, $type);
 $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 $user             = JFactory::getUser();
-$layout           = $params->get('layout', 'default');
+$layout           = $params->get('layout', 'vertical');
 
 // Logged users must load the logout sublayout
 if (!$user->guest)
 {
-	$layout .= '_logout';
+	$layout = 'default_logout';
 }
 
 require JModuleHelper::getLayoutPath('mod_login_virtuemart', $layout);
