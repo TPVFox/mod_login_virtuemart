@@ -20,6 +20,9 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 $user             = JFactory::getUser();
 $layout           = $params->get('layout', 'vertical');
 
+$menuLogin = ModLoginVirtuemartHelper::getElegidos($params);
+
+
 // Logged users must load the logout sublayout
 if (!$user->guest)
 {

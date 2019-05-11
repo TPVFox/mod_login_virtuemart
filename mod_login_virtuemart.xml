@@ -41,7 +41,21 @@
                     type="modulelayout"
                     label="Formulario"
                     description="Enlaces a log-up y log-in, sin cajas. Cajas en horizontal o cajas en vertical"
+                    client_id="0"
                 />
+                <field
+                    name="micuenta"
+                    type="menuitem"
+                    label="Enlace login"
+                    description="MOD_LOGIN_VIRTUEMART_FIELD_MENUTYPE_DESC" />
+                <field
+                    name="registro"
+                    type="menuitem"
+                    label="Enlace registro"
+                    description="MOD_LOGIN_VIRTUEMART_FIELD_ACTIVE_DESC"
+                >
+                    <option value="">JCURRENT</option>
+                </field>
             </fieldset>
                 
             <fieldset name="menu">

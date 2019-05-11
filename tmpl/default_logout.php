@@ -39,6 +39,7 @@ JHtml::_('behavior.keepalive');
 </form>
 <div>
 <pre>
-<?php print_r($list );?>
+<?php print_r($params );?>
+<?php print_r($menuLogin );?>
 </pre>
 </div>

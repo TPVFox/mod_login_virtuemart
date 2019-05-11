@@ -125,5 +125,6 @@ JHtml::_('bootstrap.tooltip');
 <div>
 <pre>
 <?php print_r($params );?>
+<?php print_r($list );?>
 </pre>
 </div>
