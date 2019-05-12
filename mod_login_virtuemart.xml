@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="site" method="upgrade">
-    <name>mod_login_virtuemart</name>
+<extension type="module" version="3.1" method="upgrade">
+    <name>MOD_LOGIN_VIRTUEMART_NAME</name>
     <author>Soluciones Vigo</author>
     <creationDate>Mayo 2019</creationDate>
     <copyright>Copia de modificada de mod_login version 3.0.0.</copyright>
@@ -23,7 +23,7 @@
         <language tag="es-ES">languages/es-ES/es-ES.mod_login_virtuemart.sys.ini</language>
     </languages>
     <administration>
-        <languages folder="language">
+        <languages folder="languages">
             <language tag="en-GB">languages/en-GB/en-GB.mod_login_virtuemart.ini</language>
             <language tag="en-GB">languages/en-GB/en-GB.mod_login_virtuemart.sys.ini</language>
             <language tag="es-ES">languages/es-ES/es-ES.mod_login_virtuemart.ini</language>
@@ -71,7 +71,7 @@
                     label="MOD_LOGIN_VIRTUEMART_FIELD_ACTIVE_LABEL"
                     description="MOD_LOGIN_VIRTUEMART_FIELD_ACTIVE_DESC"
                 >
-                    <option value="">JCURRENT</option>
+                    <option value="0">MOD_LOGIN_VIRTUEMART_TODOMENU</option>
                 </field>
                 <field
                     name="showAllChildren"
