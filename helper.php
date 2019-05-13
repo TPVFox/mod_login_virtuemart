@@ -215,51 +215,110 @@ class ModLoginVirtuemartHelper
         return $menu->getActive() ? $menu->getActive() : $home;
     }
 
-    public static function getElegidos($params)
+    /**
+     * Obtiene las opciones del menú que pide el módulo a partir de los menús del sitio
+     * @param objeto $params parámetros del módulo
+     * @return mixto Array con los rlementos del menú que elige el módulo o false si hay error.
+     */
+    private static function obtenerOpcionesMenu($params)
     {
         $app = JFactory::getApplication();
-        $menu = $app->getMenu();        
-        $itemBase = $menu->getItem($params->get('base'));
-        $itemsMenu = $menu->getItems('menutype', $itemBase->get('menutype'));
-        
-        $mimenu = [];
-        $encontrado = false;
-        $indiceMenu = 0;
-        while ($indiceMenu < count($itemsMenu) && !$encontrado) {
-            $encontrado = $itemsMenu[$indiceMenu]->id == $itemBase->id;
-            if($encontrado){
-                $mimenu[] = $itemsMenu[$indiceMenu];
-            } else {
-            $indiceMenu++;
-            }
+        $menu = $app->getMenu(); // menú del sitio
+
+        $base = $params->get('base'); // parámetro que indica elemento del menú o todo el menú
+        if ($base == 0) {
+            $itemBase = null;         // todo el menú
+        } else {
+            // los elementos que tienen al elegido como padre
+            $itemBase = $menu->getItem($params->get('base'));
         }
-        if($encontrado){
-            $arbol = $itemsMenu[$indiceMenu]->tree;
-            
-            $indiceArbolItemBase = -1;
-            $encontradoIndiceArbol = false;
-            while($indiceArbolItemBase < count($arbol) && !$encontradoIndiceArbol){
-                $encontradoIndiceArbol = $arbol[$indiceArbolItemBase]==$itemBase->id;
-                if(!$encontradoIndiceArbol){
-                    $indiceArbolItemBase++;
+
+        if ($base == 0 || $params->get('menutype') == $itemBase->menutype) {
+            // elementos de un menú. El que marcan los parámetros
+            $itemsMenu = $menu->getItems('menutype', $params->get('menutype'));
+
+            $mimenu = [];
+            $encontrado = ($base == 0);
+            $indiceMenu = 0;
+
+            // Se posiciona en el elemento elegido, o el primero de la lista si 
+            // es todo el menú
+            while ($indiceMenu < count($itemsMenu) && !$encontrado) {
+                $encontrado = $itemsMenu[$indiceMenu]->id == $itemBase->id;
+                if (!$encontrado) {
+                    $indiceMenu++;
                 }
             }
-            if($encontradoIndiceArbol){                                
-                while(++$indiceMenu < count($itemsMenu) && $encontrado){
-                    if(isset($itemsMenu[$indiceMenu]->tree[$indiceArbolItemBase]) && $itemsMenu[$indiceMenu]->tree[$indiceArbolItemBase]==$itemBase->id){
-                        $mimenu[] = $itemsMenu[$indiceMenu];
-                    } else {
-                        $encontrado = false;
+
+            if ($encontrado) {
+                $arbol = $itemsMenu[$indiceMenu]->tree;
+
+                $indiceArbolItemBase = -1;
+                $encontradoIndiceArbol = ($base == 0);
+                // se busca en que posición de la propiedad tree está el elemento.
+                // Sus hijos tendrán el mismo número en la misma posición.
+                // No se recorre si es "todo el menu"
+                while ($indiceArbolItemBase < count($arbol) && !$encontradoIndiceArbol) {
+                    $encontradoIndiceArbol = $arbol[$indiceArbolItemBase] == $itemBase->id;
+                    if (!$encontradoIndiceArbol) {
+                        $indiceArbolItemBase++;
                     }
                 }
-                $menuhtml = '<ul>';
-                foreach ($mimenu as $indice => $elementoMenu) {
-                    $menuhtml .= '<li> <a href="'.$elementoMenu->link.'">'.$elementoMenu->title.'</a></li>';
+                
+                if ($encontradoIndiceArbol) {
+                    $nivel = $itemsMenu[$indiceMenu]->level;
+                    $mostrarHijos = $params->get('showAllChildren');
+                    $mimenu[] = $itemsMenu[$indiceMenu];
+                    $nivelarbol = $nivel;
+                    while (++$indiceMenu < count($itemsMenu) && $encontrado) {
+                        if (($base == 0) 
+                            || (isset($itemsMenu[$indiceMenu]->tree[$indiceArbolItemBase]) 
+                                && $itemsMenu[$indiceMenu]->tree[$indiceArbolItemBase] == $itemBase->id)) {
+                            if (($mostrarHijos == 1 && $itemsMenu[$indiceMenu]->level > $nivel) 
+                                || ($base == 0 && $nivel == $itemsMenu[$indiceMenu]->level) 
+                                || ($base != 0 && $nivel + 1 == $itemsMenu[$indiceMenu]->level)) {
+                                $mimenu[] = $itemsMenu[$indiceMenu];
+                            }
+                        } else {
+                            $encontrado = false;
+                        }
+                    }
+                    $itemsMenu = $mimenu;
                 }
-                $menuhtml.='</ul>';
+            }
+        } else {
+            $itemsMenu = false;
+        }
+        return $itemsMenu;
+    }
+
+    public static function getElegidos($params)
+    {
+        $subMenu = self::obtenerOpcionesMenu($params);
+        if ($subMenu === false) {
+            $menuHTML = 'Error: el item de menú no pertenece al menú. Hable con el administrador';
+        } else {
+            $menuHTML = '';
+            if (count($subMenu) > 0) {
+                $nivel = $subMenu[0]->level;
+                $indice = 0;
+                $menuHTML .= '<ul><li>';
+                $menuHTML .= $subMenu[$indice]->title;
+                while (++$indice < count($subMenu)) {
+                    $elemento = $subMenu[$indice];
+                    if ($nivel == $elemento->level) {
+                        $menuHTML .= '</li><li>';
+                    } elseif ($nivel > $elemento->level) {
+                        $menuHTML .= '</li></ul><br/><li>';
+                    } elseif ($nivel < $elemento->level) {
+                        $menuHTML .= '<br/><ul><li>';
+                    }
+                    $menuHTML .= '<a href="'.$elemento->link.'">'. $elemento->title.'</a>';
+                    $nivel = $elemento->level;
+                }
+                $menuHTML .= '</li></ul>';
             }
         }
-        
-        return $menuhtml;
+        return $menuHTML;
     }
 }
