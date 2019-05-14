@@ -13,20 +13,24 @@ defined('_JEXEC') or die;
 JLoader::register('ModLoginVirtuemartHelper', __DIR__ . '/helper.php');
 
 $params->def('greeting', 1);
-$list             = ModLoginVirtuemartHelper::getListMenu($params);
-$type             = ModLoginVirtuemartHelper::getType();
+//~ $type             = ModLoginVirtuemartHelper::getType();
+$items            = ModLoginVirtuemartHelper::getLinksLogin($params);
 $return           = ModLoginVirtuemartHelper::getReturnUrl($params, $type);
 $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 $user             = JFactory::getUser();
 $layout           = $params->get('layout', 'vertical');
 
-$menuLogin = ModLoginVirtuemartHelper::getElegidos($params);
 
 
 // Logged users must load the logout sublayout
 if (!$user->guest)
 {
-	$layout = 'default_logout';
+	$layout = $layout.'_logout';
+    // Cargamos menu solo si estamos logueado.
+    $list             = ModLoginVirtuemartHelper::getListMenu($params);
+    //~ $menuLogin = ModLoginVirtuemartHelper::getElegidos($params);
+    $menuLogin = ModLoginVirtuemartHelper::obtenerOpcionesMenu($params);
+
 }
 
 require JModuleHelper::getLayoutPath('mod_login_virtuemart', $layout);

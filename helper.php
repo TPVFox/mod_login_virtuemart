@@ -218,76 +218,81 @@ class ModLoginVirtuemartHelper
     /**
      * Obtiene las opciones del menú que pide el módulo a partir de los menús del sitio
      * @param objeto $params parámetros del módulo
-     * @return mixto Array con los rlementos del menú que elige el módulo o false si hay error.
+     * @return mixto
+     *      Opcion correcta:
+     *          Array [items]  -> con los elementos del menú
+     *                [titulo] -> con el nombre del menu o item padre
+     *      Opcion incorrecta
+     *           String con error a mostrar.
      */
-    private static function obtenerOpcionesMenu($params)
+    public static function obtenerOpcionesMenu($params)
     {
+        $respuesta = array();
         $app = JFactory::getApplication();
         $menu = $app->getMenu(); // menú del sitio
-
-        $base = $params->get('base'); // parámetro que indica elemento del menú o todo el menú
-        if ($base == 0) {
-            $itemBase = null;         // todo el menú
-        } else {
-            // los elementos que tienen al elegido como padre
+        $error ='Ok';
+        $base = $params->get('base',0); // parámetro que indica elemento del menú o todo el menú
+        if ($base > 0) {
+             // Si hay base entonces obtenemos elemento y nombre menu
             $itemBase = $menu->getItem($params->get('base'));
-        }
-
-        if ($base == 0 || $params->get('menutype') == $itemBase->menutype) {
-            // elementos de un menú. El que marcan los parámetros
-            $itemsMenu = $menu->getItems('menutype', $params->get('menutype'));
-
-            $mimenu = [];
-            $encontrado = ($base == 0);
-            $indiceMenu = 0;
-
-            // Se posiciona en el elemento elegido, o el primero de la lista si 
-            // es todo el menú
-            while ($indiceMenu < count($itemsMenu) && !$encontrado) {
-                $encontrado = $itemsMenu[$indiceMenu]->id == $itemBase->id;
-                if (!$encontrado) {
-                    $indiceMenu++;
-                }
+            // Si menu selecionado no es el mismo que menu de item base tampoco tiene sentido.
+            if ($params->get('menutype') !== $itemBase->menutype ){
+                // El itembase seleccionado no es correcto no esta dentro del menu seleccionado.
+                $error= 'Error !! <br/> Recuerda que si tiene seleccionado un itembase tiene pertenecer al menu seleccionado.';
             }
+        } 
 
-            if ($encontrado) {
-                $arbol = $itemsMenu[$indiceMenu]->tree;
-
-                $indiceArbolItemBase = -1;
-                $encontradoIndiceArbol = ($base == 0);
-                // se busca en que posición de la propiedad tree está el elemento.
-                // Sus hijos tendrán el mismo número en la misma posición.
-                // No se recorre si es "todo el menu"
-                while ($indiceArbolItemBase < count($arbol) && !$encontradoIndiceArbol) {
-                    $encontradoIndiceArbol = $arbol[$indiceArbolItemBase] == $itemBase->id;
-                    if (!$encontradoIndiceArbol) {
-                        $indiceArbolItemBase++;
+        if ($error ==='Ok') {
+            // Solo pasa si es mismo menu que el itembase seleccionado o si el itembase es 0
+            $itemsMenu = $menu->getItems('menutype',$params->get('menutype'));
+            // @ variable
+            // $itemMenu = > Obtenemos array de todos los items menu ordenados padre hijos nietos...
+            $mimenu = array ();
+            $arbol = array ();
+            $continuar = 'No';
+            foreach ($itemsMenu as $item){
+                if ($base >0 ) {
+                    if ($item->id === $base){
+                       // Estamos en item que es el indicado por base.
+                        $titulo = $item->title; // Para mostrar como cabecera .
+                        $continuar = 'Si';
                     }
+                } else {
+                    // No existen item $base por lo continuamos
+                    $continuar = 'Si';
                 }
-                
-                if ($encontradoIndiceArbol) {
-                    $nivel = $itemsMenu[$indiceMenu]->level;
-                    $mostrarHijos = $params->get('showAllChildren');
-                    $mimenu[] = $itemsMenu[$indiceMenu];
-                    $nivelarbol = $nivel;
-                    while (++$indiceMenu < count($itemsMenu) && $encontrado) {
-                        if (($base == 0) 
-                            || (isset($itemsMenu[$indiceMenu]->tree[$indiceArbolItemBase]) 
-                                && $itemsMenu[$indiceMenu]->tree[$indiceArbolItemBase] == $itemBase->id)) {
-                            if (($mostrarHijos == 1 && $itemsMenu[$indiceMenu]->level > $nivel) 
-                                || ($base == 0 && $nivel == $itemsMenu[$indiceMenu]->level) 
-                                || ($base != 0 && $nivel + 1 == $itemsMenu[$indiceMenu]->level)) {
-                                $mimenu[] = $itemsMenu[$indiceMenu];
-                            }
+                $control = true; // Bandera control para finalizar foreach si fuera necesario.
+                if ($item->id !== $base && $continuar === 'Si') {
+                    // Empezamos a montar si base es 0 o $item->id distinto de base..
+                    
+                    if ( $base >0 ){
+                        // Tenemos que comprobar si es descendiente de base, ya que si no es NO continuamos el bucle
+                        $control = in_array($base,$item->tree);
+                        error_log($base.' '.json_encode($item->tree).'Control'.$control);
+                    }
+                    if ($control === true){
+                        if ($params->get('showAllChildren') == 1 ){
+                            // Si queremos todos los descendientes.
+                            $mimenu[] = $item;
                         } else {
-                            $encontrado = false;
+                            // Compruebo que el padre sea el mismo id que el base.
+                            if ($item->parent_id === $base){
+                                $mimenu[] = $item;
+                            }
+                            // Continuamos igualmente el bucle ya que es un descendiente y puede tener mas hijos y nietos.
                         }
                     }
-                    $itemsMenu = $mimenu;
+                }
+                if ($control === false){
+                    // Si control es false es porque base > 0 y item->tree no indica que sea pariente de base.
+                    break;
                 }
             }
+            //~ $respuesta['titulo'] = $titulo;
+            $respuesta['items']  = $mimenu;
+
         } else {
-            $itemsMenu = false;
+            $respuesta['error'] = $error;
         }
         return $itemsMenu;
     }
@@ -295,30 +300,59 @@ class ModLoginVirtuemartHelper
     public static function getElegidos($params)
     {
         $subMenu = self::obtenerOpcionesMenu($params);
-        if ($subMenu === false) {
-            $menuHTML = 'Error: el item de menú no pertenece al menú. Hable con el administrador';
-        } else {
-            $menuHTML = '';
-            if (count($subMenu) > 0) {
-                $nivel = $subMenu[0]->level;
-                $indice = 0;
-                $menuHTML .= '<ul><li>';
-                $menuHTML .= $subMenu[$indice]->title;
-                while (++$indice < count($subMenu)) {
-                    $elemento = $subMenu[$indice];
-                    if ($nivel == $elemento->level) {
-                        $menuHTML .= '</li><li>';
-                    } elseif ($nivel > $elemento->level) {
-                        $menuHTML .= '</li></ul><br/><li>';
-                    } elseif ($nivel < $elemento->level) {
-                        $menuHTML .= '<br/><ul><li>';
-                    }
-                    $menuHTML .= '<a href="'.$elemento->link.'">'. $elemento->title.'</a>';
-                    $nivel = $elemento->level;
+        //~ if ($subMenu === false) {
+            //~ $menuHTML = 'Error: el item de menú no pertenece al menú. Hable con el administrador';
+        //~ } else {
+            //~ $menuHTML = '';
+            //~ if (count($subMenu) > 0) {
+                //~ $nivel = $subMenu[0]->level;
+                //~ $indice = 0;
+                //~ $menuHTML .= '<ul><li>';
+                //~ $menuHTML .= $subMenu[$indice]->title;
+                //~ while (++$indice < count($subMenu)) {
+                    //~ $elemento = $subMenu[$indice];
+                    //~ if ($nivel == $elemento->level) {
+                        //~ $menuHTML .= '</li><li>';
+                    //~ } elseif ($nivel > $elemento->level) {
+                        //~ $menuHTML .= '</li></ul><br/><li>';
+                    //~ } elseif ($nivel < $elemento->level) {
+                        //~ $menuHTML .= '<br/><ul><li>';
+                    //~ }
+                    //~ $menuHTML .= '<a href="'.$elemento->link.'">'. $elemento->title.'</a>';
+                    //~ $nivel = $elemento->level;
+                //~ }
+                //~ $menuHTML .= '</li></ul>';
+            //~ }
+        //~ }
+        return $subMenu;
+    }
+
+
+    public static function getLinksLogin($params)
+    {
+        $app = JFactory::getApplication();
+        $items = array();
+        $urls = array();
+        $items['micuenta'] = $app->getMenu()->getItem($params->get('micuenta'));
+        $items['registro'] = $app->getMenu()->getItem($params->get('registro'));
+
+        // Stay on the same page
+        $url = JUri::getInstance()->toString();
+
+        if (gettype($items['micuenta'])=== 'object' && gettype($items['registro'])=== 'object' ) {
+            foreach ($items as $item){
+                $lang = '';
+
+                if ($item->language !== '*' && JLanguageMultilang::isEnabled()) {
+                    $lang = '&lang=' . $item->language;
                 }
-                $menuHTML .= '</li></ul>';
+                
+
+                $urls[] = 'index.php?Itemid=' . $item->id . $lang;
             }
         }
-        return $menuHTML;
+        //~ $url = base64_encode($url);
+        return $urls;
     }
+
 }
