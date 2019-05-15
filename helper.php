@@ -230,7 +230,7 @@ class ModLoginVirtuemartHelper
         $respuesta = array();
         $app = JFactory::getApplication();
         $menu = $app->getMenu(); // menú del sitio
-        $error ='Ok';
+        $error ='NO';
         $base = $params->get('base',0); // parámetro que indica elemento del menú o todo el menú
         if ($base > 0) {
              // Si hay base entonces obtenemos elemento y nombre menu
@@ -242,44 +242,43 @@ class ModLoginVirtuemartHelper
             }
         } 
 
-        if ($error ==='Ok') {
+        if ($error ==='NO') {
             // Solo pasa si es mismo menu que el itembase seleccionado o si el itembase es 0
             $itemsMenu = $menu->getItems('menutype',$params->get('menutype'));
             // @ variable
             // $itemMenu = > Obtenemos array de todos los items menu ordenados padre hijos nietos...
             $mimenu = array ();
             $arbol = array ();
-            $continuar = 'No';
+            $titulo = 'Pendiente obtener titulo modulo';
+            if ($base == 0){
+                // Si no hay $item base empieza desde el primer item.
+                $empezar = 'Si';
+                $nivel = 0 ;
+            } else {
+                $empezar = 'No';
+            }
             foreach ($itemsMenu as $item){
-                if ($base >0 ) {
-                    if ($item->id === $base){
-                       // Estamos en item que es el indicado por base.
-                        $titulo = $item->title; // Para mostrar como cabecera .
-                        $continuar = 'Si';
-                    }
-                } else {
-                    // No existen item $base por lo continuamos
-                    $continuar = 'Si';
-                }
+                if ($base >0 && $item->id === $base) {
+                    // Estamos en item que es el indicado por base.
+                    $titulo = $item->title; // Para mostrar como cabecera .
+                    $empezar = 'Si';
+                    $nivel = $item->level;
+                } 
                 $control = true; // Bandera control para finalizar foreach si fuera necesario.
-                if ($item->id !== $base && $continuar === 'Si') {
+                if ($item->id !== $base && $empezar === 'Si') {
                     // Empezamos a montar si base es 0 o $item->id distinto de base..
-                    
-                    if ( $base >0 ){
-                        // Tenemos que comprobar si es descendiente de base, ya que si no es NO continuamos el bucle
+                    if ($base > 0){
+                        // Tenemos que comprobar si un descendiente de base,sino es NO continuamos el bucle
                         $control = in_array($base,$item->tree);
-                        error_log($base.' '.json_encode($item->tree).'Control'.$control);
                     }
                     if ($control === true){
-                        if ($params->get('showAllChildren') == 1 ){
-                            // Si queremos todos los descendientes.
-                            $mimenu[] = $item;
-                        } else {
-                            // Compruebo que el padre sea el mismo id que el base.
-                            if ($item->parent_id === $base){
+                        if ($params->get('showAllChildren') == 0 ){
+                            // No queremos los descendientes.
+                            if ( (intval($nivel) +1) == $item->level ) {
                                 $mimenu[] = $item;
                             }
-                            // Continuamos igualmente el bucle ya que es un descendiente y puede tener mas hijos y nietos.
+                        } else {
+                            $mimenu[] = $item;
                         }
                     }
                 }
@@ -288,13 +287,13 @@ class ModLoginVirtuemartHelper
                     break;
                 }
             }
-            //~ $respuesta['titulo'] = $titulo;
+            $respuesta['titulo'] = $titulo; //(Pendiente por resolver como obtener titulo menu.... )
             $respuesta['items']  = $mimenu;
 
         } else {
             $respuesta['error'] = $error;
         }
-        return $itemsMenu;
+        return $respuesta;
     }
 
     public static function getElegidos($params)
