@@ -238,7 +238,7 @@ class ModLoginVirtuemartHelper
             // Si menu selecionado no es el mismo que menu de item base tampoco tiene sentido.
             if ($params->get('menutype') !== $itemBase->menutype ){
                 // El itembase seleccionado no es correcto no esta dentro del menu seleccionado.
-                $error= 'Error !! <br/> Recuerda que si tiene seleccionado un itembase tiene pertenecer al menu seleccionado.';
+                $error= JText::_('MOD_LOGIN_TEXTO_ERROR_OBTENEROPCIONESMENU');
             }
         } 
 
@@ -287,7 +287,7 @@ class ModLoginVirtuemartHelper
                     break;
                 }
             }
-            $respuesta['titulo'] = $titulo; 
+            $respuesta['titulo'] = $titulo; //(Pendiente por resolver como obtener titulo menu.... )
             $respuesta['items']  = $mimenu;
 
         } else {
@@ -296,35 +296,6 @@ class ModLoginVirtuemartHelper
         return $respuesta;
     }
 
-    public static function getElegidos($params)
-    {
-        $subMenu = self::obtenerOpcionesMenu($params);
-        //~ if ($subMenu === false) {
-            //~ $menuHTML = 'Error: el item de menú no pertenece al menú. Hable con el administrador';
-        //~ } else {
-            //~ $menuHTML = '';
-            //~ if (count($subMenu) > 0) {
-                //~ $nivel = $subMenu[0]->level;
-                //~ $indice = 0;
-                //~ $menuHTML .= '<ul><li>';
-                //~ $menuHTML .= $subMenu[$indice]->title;
-                //~ while (++$indice < count($subMenu)) {
-                    //~ $elemento = $subMenu[$indice];
-                    //~ if ($nivel == $elemento->level) {
-                        //~ $menuHTML .= '</li><li>';
-                    //~ } elseif ($nivel > $elemento->level) {
-                        //~ $menuHTML .= '</li></ul><br/><li>';
-                    //~ } elseif ($nivel < $elemento->level) {
-                        //~ $menuHTML .= '<br/><ul><li>';
-                    //~ }
-                    //~ $menuHTML .= '<a href="'.$elemento->link.'">'. $elemento->title.'</a>';
-                    //~ $nivel = $elemento->level;
-                //~ }
-                //~ $menuHTML .= '</li></ul>';
-            //~ }
-        //~ }
-        return $subMenu;
-    }
 
 
     public static function getLinksLogin($params)

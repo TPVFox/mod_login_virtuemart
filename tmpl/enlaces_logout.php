@@ -29,6 +29,7 @@ function OcultarMicuenta() {
 	}
 </script>
 <div class="usuario-registrado" onmouseover="mostrarMicuenta()">
+  	<div class="login-greeting" >
     <form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure', 0)); ?>" method="post" id="login-form" class="form-vertical">
         <div class="login-greeting" >
             <?php if ($params->get('name') == 0) : {
@@ -47,12 +48,35 @@ function OcultarMicuenta() {
             <?php echo JHtml::_('form.token'); ?>
         </div>
     </form>
-   
-</div>
-<div class="Pop-up" id="Pop-up">
-    <?php
-        echo '<pre>';
-        print_r($menuLogin);
-        echo '</pre>';
-    ?>
+    </div>
+    <div class="Pop-up" id="Pop-up" onmouseout="OcultarMicuenta(this)">
+        <h3 class="LetraVerde"><?php echo $menuLogin['titulo'];?></h3>
+        <?php // Obtenemos item de menu o mostramos error
+        if (isset($menuLogin['error'])){
+            echo '<div>'.$menuLogin['error'].'</div>';
+
+        } else {
+             $items = $menuLogin['items'];
+            echo '<ul>';
+            foreach ($items as $i=>$item){
+                $nivel = $item->level;
+                echo '<li>';
+                    echo '<a href="'.$item->link.'">'.$item->title.'</a>';
+                    $i_siguiente = $i +1;
+                if ($nivel === $items[$i_siguiente]->level){
+                    echo '</li>';
+                } else {
+                    if ($nivel < $items[$i_siguiente]->level){
+                        // Es un hijo.
+                        echo '<ul class="descendiente">';
+                    } else {
+                        echo '</li></ul>';
+
+                    }
+                }
+                
+            }
+        }
+        ?>
+    </div>
 </div>

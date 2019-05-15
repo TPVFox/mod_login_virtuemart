@@ -21,8 +21,8 @@ JHtml::_('bootstrap.tooltip');
 
 ?>
 <div>
-    <a href="<?php echo JRoute::_($items[1]);?>">Registrate</a>
+    <?php '<a href="'.JRoute::_($items[1]).'">'.JText::_('MOD_LOGIN_TEXTO_LINK_REGISTRO').'</a>';?>
     <span class="glyphicon glyphicon-user"></span>
-    <a href="<?php echo JRoute::_($items[0]);?>">Mi cuenta</a>
+    <?php '<a href="'.JRoute::_($items[0]).'">'.JText::_('MOD_LOGIN_TEXTO_LINK_REGISTRO').'</a>';?>
 
 </div>
