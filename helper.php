@@ -287,7 +287,7 @@ class ModLoginVirtuemartHelper
                     break;
                 }
             }
-            $respuesta['titulo'] = $titulo; //(Pendiente por resolver como obtener titulo menu.... )
+            $respuesta['titulo'] = $titulo; 
             $respuesta['items']  = $mimenu;
 
         } else {
