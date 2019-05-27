@@ -25,7 +25,7 @@ $layout           = $params->get('layout', 'vertical');
 // Logged users must load the logout sublayout
 if (!$user->guest)
 {
-	$layout = $layout.'_logout';
+	$layout = 'default_logout';
     // Cargamos menu solo si estamos logueado.
     $list             = ModLoginVirtuemartHelper::getListMenu($params);
     //~ $menuLogin = ModLoginVirtuemartHelper::getElegidos($params);

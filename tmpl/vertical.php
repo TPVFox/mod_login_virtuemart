@@ -61,13 +61,15 @@ $clase_left = $params->get('clase_flotante','pull-left');
 				<button type="submit" tabindex="0" name="Submit" class="btn btn-primary login-button"><?php echo JText::_('JLOGIN'); ?></button>
 			</div>
 		</div>
-        <?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
+        <?php if (JPluginHelper::isEnabled('system', 'remember') && $params->get('showLinks',1) == 1) : ?>
 		<div id="form-login-remember" class="control-group checkbox">
 			<label for="modlgn-remember" class="control-label"><?php echo JText::_('MOD_LOGIN_REMEMBER_ME'); ?></label> <input id="modlgn-remember" type="checkbox" name="remember" class="inputbox" value="yes"/>
 		</div>
 		<?php endif; ?>
 		<?php
-			$usersConfig = JComponentHelper::getParams('com_users'); ?>
+			$usersConfig = JComponentHelper::getParams('com_users');
+         if ($params->get('showLinks',1) == 1){
+            ?>
 			<ul class="unstyled">
 			<?php if ($usersConfig->get('allowUserRegistration')) : ?>
 				<li>
@@ -84,6 +86,9 @@ $clase_left = $params->get('clase_flotante','pull-left');
 					<?php echo JText::_('MOD_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>
 				</li>
 			</ul>
+        <?php
+        }
+        ?>
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.login" />
 		<input type="hidden" name="return" value="<?php echo $return; ?>" />

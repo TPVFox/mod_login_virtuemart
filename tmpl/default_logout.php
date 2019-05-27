@@ -18,10 +18,45 @@ JLoader::register('UsersHelperRoute', JPATH_SITE . '/components/com_users/helper
 JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.tooltip');
 
+/* Los iconos que utilizamos de Joomla con prefijo: icon-
+ *  arrow-down-3
+ *  user
+ *  lock 
+ *
+ * Los iconos que utilzamos de GLYPHICON con prefijo: glyphicon glyphicon-
+ *  chevron-down
+ *  user
+ *  lock
+ *   
+ * */
+if ($params->get('iconos_lista') == 1){
+    // Utiliza los icons de Joomla
+    $prefijo = 'icon-';
+    $icon_fecha = $prefijo.'arrow-down-3';
+} else {
+    $prefijo ='glyphicon glyphicon-';
+    $icon_fecha = $prefijo.'chevron-down';
+}
 
+if ($params->get('popup_menu') ==1){
 ?>
-
-<div class="usuario-registrado" >
+<script type="text/javascript">
+function mostrarMicuenta() {
+	document.getElementById('Pop-up').style.display = 'table';
+	}
+function OcultarMicuenta() {
+	document.getElementById('Pop-up').style.display = 'none';
+	}
+</script>
+<?php
+    $eventoMostrar = 'onmouseover="mostrarMicuenta()"';
+    $eventoOcultar = 'onmouseout="OcultarMicuenta(this)"';
+} else {
+    $eventoMostrar = '';
+    $eventoOcultar = '';
+}
+?>
+<div class="usuario-registrado" <?php echo $eventoMostrar;?>>
   	<div class="login-greeting" >
     <form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure', 0)); ?>" method="post" id="login-form" class="form-vertical">
         <div class="login-greeting" >
@@ -30,8 +65,8 @@ JHtml::_('bootstrap.tooltip');
             } else : {
                 echo JText::sprintf('MOD_LOGIN_HINAME', htmlspecialchars($user->get('username')));
             } endif; ?>
-            <span class="glyphicon glyphicon-chevron-down" style="font-size: 10px;"> </span>
-            <span class="glyphicon glyphicon-user"></span>
+            <span class="<?php echo $icon_fecha;?>" style="font-size: 10px;"> </span>
+            <span class="<?php echo $prefijo.'user';?>"></span>
             <input type="submit" name="Submit" class="button" value="<?php echo JText::_('JLOGOUT'); ?>" />
         </div>
         <div class="logout-button">
@@ -42,7 +77,7 @@ JHtml::_('bootstrap.tooltip');
         </div>
     </form>
     </div>
-    <div class="Pop-up" id="Pop-up">
+    <div class="Pop-up" id="Pop-up" <?php echo $eventoOcultar;?>>
         <h3 class="LetraVerde"><?php echo $menuLogin['titulo'];?></h3>
         <?php // Obtenemos item de menu o mostramos error
         if (isset($menuLogin['error'])){

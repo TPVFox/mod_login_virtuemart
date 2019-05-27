@@ -35,7 +35,9 @@
     <config>
         <fields name="params">
             <fieldset name="presentacion">
-                
+                <field type="spacer" name="separador_general" class="text" 
+                label="MOD_LOGIN_VIRTUEMART_SEPARADOR_GENERAL"
+                />
                 <field
                     name="layout"
                     type="modulelayout"
@@ -43,6 +45,45 @@
                     description="Enlaces a log-up y log-in, sin cajas. Cajas en horizontal o cajas en vertical"
                     client_id="0"
                 />
+                <field
+                    name="showLinks"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                    label="MOD_LOGIN_VIRTUEMART_FIELD_LINKS_LABEL"
+                    description="MOD_LOGIN_VIRTUEMART_FIELD_LINKS_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                    name="popup_menu"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                    label="MOD_LOGIN_VIRTUEMART_FIELD_POPUPMENU_LABEL"
+                    description="MOD_LOGIN_VIRTUEMART_FIELD_POPUPMENU_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                    name="iconos_lista"
+                    type="list"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                    label="MOD_LOGIN_VIRTUEMART_FIELD_ICONOLISTA_LABEL"
+                    description="MOD_LOGIN_VIRTUEMART_FIELD_ICONOSLISTA_DESC">
+                    <option value="1">MOD_LOGIN_VIRTUEMART_ICONOSLISTA_JOOMLA</option>
+                    <option value="2">MOD_LOGIN_VIRTUEMART_ICONOSLISTA_GLYPHICON</option>
+                </field>
+
+                
+                
+                <field type="spacer" name="separador_enlaces_barra" hr="true"/>
+                <field type="spacer" name="separador_enlaces" class="text" 
+                label="MOD_LOGIN_VIRTUEMART_SEPARADOR_ENLACES"
+                />
+                
                 <field
                     name="micuenta"
                     type="menuitem"
@@ -56,6 +97,23 @@
                 >
                     <option value="">JCURRENT</option>
                 </field>
+                
+                <field type="spacer" name="separador_vertical_barra" hr="true"/>
+                <field type="spacer" name="separador_vertical" class="text" 
+                label="MOD_LOGIN_VIRTUEMART_SEPARADOR_VERTICAL"
+                />
+
+                <field 
+					name="clase_flotante"  
+					type="text" 
+					label="MOD_LOGIN_VIRTUEMART_FIELD_CLASEFLOTANTE_LABEL"
+					description="MOD_LOGIN_VIRTUEMART_FIELD_CLASEFLOTANTE_DESC"
+					default="pull-left"
+					filter="string" 
+				/>
+
+                
+                
             </fieldset>
                 
             <fieldset name="menu">
