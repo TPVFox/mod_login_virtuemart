@@ -17,12 +17,16 @@ JLoader::register('UsersHelperRoute', JPATH_SITE . '/components/com_users/helper
 
 JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.tooltip');
-
+if ($params->get('iconos_lista') == 1){
+    $prefijo = 'icon-';
+}else{
+    $prefijo ='glyphicon glyphicon-';
+}
 
 ?>
 <div>
     <?php echo '<a href="'.JRoute::_($items[1]).'">'.JText::_('MOD_LOGIN_TEXTO_LINK_REGISTRO').'</a>';?>
-    <span class="glyphicon glyphicon-user"></span>
+    <span class="<?php echo $prefijo.'user';?>"></span>
     <?php echo '<a href="'.JRoute::_($items[0]).'">'.JText::_('MOD_LOGIN_TEXTO_LINK_MICUENTA').'</a>';?>
 
 </div>
