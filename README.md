@@ -7,4 +7,4 @@ Aparte tiene tres presentaciones:
 - Vertical: Muestra formulario acceso vertical,un campo debajo del otro.
 - Horizontal: Muestra formulario acceso horizontal, un campo al lado de otro.
 
-Mas información puedes verlo en :http://ayuda.svigo.es/index.php/programacion/cms/joomla/ayudas-para-principiantes/230-modulo-acceso-joomla-mas-completo
+Mas información puedes verlo en :http://ayuda.svigo.es/index.php/programacion/cms/joomla/modulos/230-modulo-acceso-joomla-mas-completo
